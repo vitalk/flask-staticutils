@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Flask-staticutils
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 Flask extension that provides a simple way to add revision to your app static
 assets.
@@ -30,7 +30,7 @@ setup(
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
