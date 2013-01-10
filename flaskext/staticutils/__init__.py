@@ -102,7 +102,6 @@ class FileChecksumRev(IRev):
 
     def __call__(self, asset):
         path = abspath(asset, current_app.root_path)
-        print path
         rev = checksum(path, current_app.config[key('REV_LENGTH')])
         if rev is None:
             return asset
