@@ -1,0 +1,4 @@
+Attest==0.5.3
+Pygments==1.6rc1
+progressbar==2.3
+wsgiref==0.1.2

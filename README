@@ -1,0 +1,49 @@
+FLASK-STATICUTILS
+
+Flask extension that provides a simple way to add revision info to your app
+static assets.
+
+WHAT
+
+This extension provides:
+
+* the ability to version application static files by checksum of the their
+  contents (or any other user-defined method)
+
+WHY
+
+Because you MUST cache static content. But even though your static content
+changes infrequently, when it does, the cached content needs to be invalidated.
+Including the version of your content as part of URL (not querystring) allows to
+control cache invalidation more flexibly.
+
+HOW
+
+pip install -e git+git@bitbucket.org:vitalk/flask-staticutils.git#egg=flask-staticutils
+
+Use default flask API to customize following settings:
+
+STATIC_UTILS_REV_FORMAT     format string used to produce asset path,
+                            default is '%(path)s-%(rev)s%(ext)s'.
+                            For example,
+                            'foo/bar.css' → 'foo/bar-17e073c333c6.css'
+                            'foo/bar' → 'foo/bar.17e073c333c6'
+
+STATIC_UTILS_FILTER_NAME    name of jinja filter, default is 'rev'
+
+STATIC_UTILS_REV_LENGTH     truncate revision to that length, default is 12
+                            'foo/bar.css' → 'foo/bar-17e073c333c6.css'
+                                                     |<-------->|
+                                             checksum truncated to 12 symbols
+
+STATIC_UTILS_REV_GENERATOR  ready to import path to the revision generator,
+                            default is 'flask.ext.staticutils.FileChecksumRev'
+
+THANKS
+
+Inspired by the django-staticutils (https://github.com/workshop33/django-staticutils)
+
+COPY
+
+Copyright © 2013 Vital Kudzelka <vital.kudzelka@gmail.com>.
+Licensed under The MIT License (http://opensource.org/licenses/MIT).
