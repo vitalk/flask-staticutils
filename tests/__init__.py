@@ -75,6 +75,8 @@ def rev_init(app):
 def file_checksum_rev_init(app):
     setup(app)
     rev = FileChecksumRev(app.config[key('REV_FORMAT')])
+    assert rev.root_path == app.root_path
+    assert rev.rev_length == app.config[key('REV_LENGTH')]
     assert rev('static/js/app.js') == 'static/js/app-1b42a11f5f64.js'
 
 

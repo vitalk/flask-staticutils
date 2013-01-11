@@ -100,9 +100,14 @@ class Rev(object):
 class FileChecksumRev(Rev):
     """Use file checksum as revision string."""
 
+    def __init__(self, formatstr):
+        super(FileChecksumRev, self).__init__(formatstr)
+        self.root_path = current_app.root_path
+        self.rev_length = current_app.config[key('REV_LENGTH')]
+
     def __call__(self, asset):
-        path = abspath(asset, current_app.root_path)
-        rev = checksum(path, current_app.config[key('REV_LENGTH')])
+        path = abspath(asset, self.root_path)
+        rev = checksum(path, self.rev_length)
         if rev is None:
             return asset
 
