@@ -79,8 +79,8 @@ class StaticUtils(object):
         return self._rev(asset)
 
 
-class IRev(object):
-    """Implements default interfaces to generate asset path with revision info.
+class Rev(object):
+    """Implements default methods, attributes for all revision generators.
 
     :param formatstr: format string used to produce asset path
     """
@@ -97,7 +97,7 @@ class IRev(object):
         raise NotImplementedError
 
 
-class FileChecksumRev(IRev):
+class FileChecksumRev(Rev):
     """Use file checksum as revision string."""
 
     def __call__(self, asset):

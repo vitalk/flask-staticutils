@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
-from attest import Tests, assert_hook, AssertImportHook
+from attest import Tests, assert_hook, AssertImportHook, raises
 
 # disable assert hook before load flask app, while pull-request will be
 # accepted https://github.com/dag/attest/pull/136
 AssertImportHook.disable()
 
-from flaskext.staticutils import StaticUtils
+from flaskext.staticutils import StaticUtils, Rev, FileChecksumRev
 from flaskext.staticutils.utils import checksum, key, abspath, make_key
 
 from tests.test_app import create_app
@@ -61,6 +61,21 @@ def app_context():
 
     with app.test_request_context():
         yield app
+
+
+@staticutils.test
+def rev_init(app):
+    rev = Rev(None)
+    assert rev.formatstr == None
+    with raises(NotImplementedError):
+        rev(None)
+
+
+@staticutils.test
+def file_checksum_rev_init(app):
+    setup(app)
+    rev = FileChecksumRev(app.config[key('REV_FORMAT')])
+    assert rev('static/js/app.js') == 'static/js/app-1b42a11f5f64.js'
 
 
 @staticutils.test
