@@ -41,16 +41,15 @@ def to_class(path):
 
 
 def abspath(path, root):
-    """Returns an absolute version of the path starts from the root.
+    """Returns an absolute version of the path starts from the root. If path is
+    already absolute path and starts with root, it returns unaffected.
 
     :param path: path to transform
-    :param root: where result starts from
+    :param root: the path root directory
     """
-    if os.path.isabs(path):
-        pass
-    else:
-        path = os.path.join(root, path)
-    return path
+    if os.path.isabs(path) and not path.startswith(root):
+        path = path.strip('/')
+    return os.path.join(root, path)
 
 
 def make_key(iden, *args, **kwargs):

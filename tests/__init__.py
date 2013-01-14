@@ -32,10 +32,12 @@ def nonexisting_file_checksum():
 
 @utils.test
 def _abspath():
-    root = '/'
-    path = abspath('foo', root)
-    assert os.path.isabs(path)
-    assert path.startswith(root)
+    root = '/root'
+    assert abspath('foo', root) == '/root/foo'
+    assert abspath('/foo', root) == '/root/foo'
+    assert abspath('//foo', root) == '/root/foo'
+    assert abspath('/root', root) == root
+    assert abspath('/root/foo', root) == '/root/foo'
 
 
 @utils.test
