@@ -86,6 +86,7 @@ class Rev(object):
     """Implements default methods, attributes for all revision generators.
 
     :param formatstr: format string used to produce asset path
+    :param kwargs: all kwargs will be ignored
     """
 
     def __init__(self, formatstr, **kwargs):
