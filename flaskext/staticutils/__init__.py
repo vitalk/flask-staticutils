@@ -64,7 +64,7 @@ class StaticUtils(object):
         app.jinja_env.filters.setdefault(config[key('FILTER_NAME')], self)
 
         if app.testing:
-            rule = '/<path:asset>-<string(maxlength=%s):rev><string:ext>'
+            rule = '/<path:asset>-<string(length=%s):rev><string:ext>'
             @app.route(rule % config[key('REV_LENGTH')])
             def static_revision(asset, rev, ext):
                 return redirect('%s%s' % (asset, ext))
