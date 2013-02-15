@@ -23,11 +23,11 @@ pip install -e git+git@bitbucket.org:vitalk/flask-staticutils.git#egg=flask-stat
 
 Use default flask API to customize following settings:
 
-STATIC_UTILS_REV_FORMAT     format string used to produce asset path,
-                            default is '%(path)s-%(rev)s%(ext)s'.
+STATIC_UTILS_FORMATSTR      format string used to produce asset path,
+                            default is '/%(path)s-%(rev)s%(ext)s'.
                             For example,
-                            'foo/bar.css' → 'foo/bar-17e073c333c6.css'
-                            'foo/bar' → 'foo/bar.17e073c333c6'
+                            'foo/bar.css' → '/foo/bar-17e073c333c6.css'
+                            'foo/bar' → '/foo/bar.17e073c333c6'
 
 STATIC_UTILS_FILTER_NAME    name of jinja filter, default is 'rev'
 

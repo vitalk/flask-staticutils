@@ -50,7 +50,7 @@ class StaticUtils(object):
         :param app: Flask application instance
         """
         config = app.config
-        config.setdefault(key('FORMATSTR'), '%(path)s-%(rev)s%(ext)s')
+        config.setdefault(key('FORMATSTR'), '/%(path)s-%(rev)s%(ext)s')
         config.setdefault(key('FILTER_NAME'), 'rev')
         config.setdefault(key('REV_LENGTH'), 12)
         config.setdefault(key('REV_GENERATOR'), 'flask.ext.staticutils.FileChecksumRev')
