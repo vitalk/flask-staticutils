@@ -85,7 +85,9 @@ def rev_init(app):
 @staticutils.test
 def file_checksum_rev_init(app):
     setup(app)
-    rev = FileChecksumRev(app.config[key('REV_FORMAT')])
+    rev = FileChecksumRev(formatstr=app.config[key('FORMATSTR')],
+                          rev_length=app.config[key('REV_LENGTH')],
+                          root_path=app.root_path)
     assert rev('static/js/app.js') == 'static/js/app-1b42a11f5f64.js'
 
 
@@ -104,7 +106,7 @@ def existing_file_default_formatstr(app):
 
 @staticutils.test
 def existing_file_custom_formatstr(app):
-    app.config[key('REV_FORMAT')] = 'rev-%(rev)s/%(path)s%(ext)s'
+    app.config[key('FORMATSTR')] = 'rev-%(rev)s/%(path)s%(ext)s'
     _, rev = setup(app)
     assert rev('static/js/app.js') == 'rev-1b42a11f5f64/static/js/app.js'
 

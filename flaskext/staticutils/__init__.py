@@ -5,7 +5,7 @@ from functools import wraps
 from flask import current_app, redirect
 from werkzeug.contrib.cache import SimpleCache
 
-from .utils import key, to_class, checksum, abspath, make_key
+from .utils import key, to_class, checksum, abspath, make_key, get_config
 
 
 cache = SimpleCache()
@@ -50,13 +50,16 @@ class StaticUtils(object):
         :param app: Flask application instance
         """
         config = app.config
-        config.setdefault(key('REV_FORMAT'), '%(path)s-%(rev)s%(ext)s')
+        config.setdefault(key('FORMATSTR'), '%(path)s-%(rev)s%(ext)s')
         config.setdefault(key('FILTER_NAME'), 'rev')
         config.setdefault(key('REV_LENGTH'), 12)
         config.setdefault(key('REV_GENERATOR'), 'flask.ext.staticutils.FileChecksumRev')
 
         cls = to_class(config[key('REV_GENERATOR')])
-        self._rev = cls(config[key('REV_FORMAT')])
+
+        # extention config passed to revision generator
+        self_config = get_config(config, 'STATIC_UTILS_')
+        self._rev = cls(root_path=app.root_path, **self_config)
 
         app.jinja_env.filters.setdefault(config[key('FILTER_NAME')], self)
 
@@ -85,7 +88,7 @@ class Rev(object):
     :param formatstr: format string used to produce asset path
     """
 
-    def __init__(self, formatstr):
+    def __init__(self, formatstr, **kwargs):
         self.formatstr = formatstr
 
     def __call__(self, asset):
@@ -98,11 +101,22 @@ class Rev(object):
 
 
 class FileChecksumRev(Rev):
-    """Use file checksum as revision string."""
+    """Use file checksum as revision string.
+
+    :param formatstr: format string used to produce asset path
+    :param root_path: the current app root_path
+    :param rev_length: truncate revision to that length
+    :param kwargs: all kwargs ignored
+    """
+
+    def __init__(self, formatstr, root_path, rev_length, **kwargs):
+        super(FileChecksumRev, self).__init__(formatstr=formatstr)
+        self.root_path = root_path
+        self.rev_length = rev_length
 
     def __call__(self, asset):
-        path = abspath(asset, current_app.root_path)
-        rev = checksum(path, current_app.config[key('REV_LENGTH')])
+        path = abspath(asset, self.root_path)
+        rev = checksum(path, self.rev_length)
         if rev is None:
             return asset
 
