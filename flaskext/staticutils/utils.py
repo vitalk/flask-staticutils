@@ -80,3 +80,14 @@ def make_key(iden, *args, **kwargs):
     h.update(_conv(args))
     h.update(_conv(kwargs))
     return '%s(%s)' % (iden, h.hexdigest())
+
+
+def get_config(from_config, prefix):
+    """Returns new key-value config from passed dict, strip away the prefix from
+    keys.
+
+    :param from_config: the initial config dictionary
+    :param prefix: which prefix strip away from keys
+    """
+    return {key.strip(prefix).lower(): from_config[key] for key in from_config
+            if key.startswith(prefix)}

@@ -8,7 +8,8 @@ from attest import Tests, assert_hook, AssertImportHook, raises
 AssertImportHook.disable()
 
 from flaskext.staticutils import StaticUtils, Rev, FileChecksumRev
-from flaskext.staticutils.utils import checksum, key, abspath, make_key
+from flaskext.staticutils.utils import (checksum, key, abspath, make_key,
+                                        get_config)
 
 from tests.test_app import create_app
 
@@ -47,6 +48,14 @@ def _make_key():
     assert 'foo' in key1
     assert 'foo' in key2
     assert key1 != key2
+
+
+@utils.test
+def _get_config():
+    config = {'foo_a': 'a', 'foo_b': 'b', 'bar_c': 'c'}
+    assert get_config(config, 'foo_') == {'a': 'a', 'b': 'b'}
+    assert get_config(config, 'bar_') == {'c': 'c'}
+    assert get_config(config, 'baz_') == {}
 
 
 staticutils = Tests()
