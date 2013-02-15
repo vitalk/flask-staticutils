@@ -138,6 +138,16 @@ def rewrite_rule(app):
         assert rv.data == 'well\n'
 
 
+@staticutils.test
+def custom_rewrite_rule(app):
+    app.config[key('FORMATSTR')] = '/%(path)s-rev:%(rev)s%(ext)s'
+    setup(app)
+    with app.test_client() as c:
+        rv = c.get('/static/js/app-rev:d41d8cd98f00.js')
+        assert rv.status_code == 302
+        assert rv.headers['Location'] == 'http://localhost/static/js/app.js'
+
+
 suite = Tests(tests=(utils, staticutils))
 
 
